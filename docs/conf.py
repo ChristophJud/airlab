@@ -51,7 +51,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'Airlab'
-copyright = '2018, Robin Sandkuehler Christoph Jud'
+copyright = '2018, University of Basel, Center for medical Image Analysis and Navigation'
 author = 'Robin Sandkuehler Christoph Jud'
 
 # The version info for the project you're documenting, acts as replacement for
