@@ -52,7 +52,7 @@ AirLab is licensed under the Apache 2.0 license. For details, consider the LICEN
 
 If you can use this software in any way, please cite us in your publications:
 
-[2018] Robin Sandkuehler,  Christoph Jud, and Philippe C. Cattin. "AirLab: Autograd Image Registration Laboratory". arXiv preprint arXiv:1006.4990, 85 2018. [link](http://www.arxiv.org/paper.pdf)
+[2018] Robin Sandkuehler,  Christoph Jud, and Philippe C. Cattin. "AirLab: Autograd Image Registration Laboratory". arXiv preprint arXiv:1006.4990, 85 2018. [link](https://arxiv.org/abs/1806.09907)
 
 
 ### Contributing
