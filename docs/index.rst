@@ -17,10 +17,6 @@ SimpleITK for basic image IO. It profits therefore from recent advances made by 
 
 Authors: Robin Sandkuehler and Christoph Jud
 
-.. toctree::
-   :maxdepth: 1
-   :caption: AirLab:
-
 
 .. toctree::
    :maxdepth: 1
