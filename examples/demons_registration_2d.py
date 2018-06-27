@@ -17,14 +17,14 @@ import torch as th
 import matplotlib.pyplot as plt
 import time
 
-from airlab.registration import registration as al
-import airlab.utils.image as imu
-import airlab.transformation.pairwiseTransformation as pt
-import airlab.transformation.utils as tu
-import airlab.loss.pairwiseImageLoss as pil
-import airlab.regulariser.demonsRegulariser as dreg
+import sys
+import os
 
-import create_test_image_data as test_data
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import airlab as al
+
+from create_test_image_data import create_C_2_O_test_images
 
 def main():
     start = time.time()
@@ -36,26 +36,25 @@ def main():
 
     # In order to use a GPU uncomment the following line. The number is the device index of the used GPU
     # Here, the GPU with the index 0 is used.
-    device = th.device("cuda:0")
+    # device = th.device("cuda:0")
 
-    fixed_image, moving_image, shaded_image = test_data.create_C_2_O_test_images(256,
-                                                                                 dtype=dtype, device=device)
+    fixed_image, moving_image, shaded_image = create_C_2_O_test_images(256, dtype=dtype, device=device)
 
     # create pairwise registration object
     registration = al.DemonsRegistraion(dtype=dtype, device=device)
 
     # choose the affine transformation model
-    transformation = pt.NonParametricTransformation(moving_image.size, dtype=dtype, device=device)
+    transformation = al.NonParametricTransformation(moving_image.size, dtype=dtype, device=device)
 
     registration.set_transformation(transformation)
 
     # choose the Mean Squared Error as image loss
-    image_loss = pil.MSELoss(fixed_image, moving_image)
+    image_loss = al.MSELoss(fixed_image, moving_image)
 
     registration.set_image_loss([image_loss])
 
     # choose a regulariser for the demons
-    regulariser = dreg.GaussianRegulariser(moving_image.spacing, sigma=[2, 2], dtype=dtype, device=device)
+    regulariser = al.GaussianRegulariser(moving_image.spacing, sigma=[2, 2], dtype=dtype, device=device)
 
     registration.set_regulariser([regulariser])
 
@@ -71,16 +70,12 @@ def main():
     # warp the moving image with the final transformation result
     displacement = transformation.get_displacement()
 
-
-    #use the shaded version of the fixed image for visualization
-    # itkImg = sitk.ReadImage("./data/circle_moving_image_shaded_2d.png", sitk.sitkFloat32)
-    # itkImg = sitk.RescaleIntensity(itkImg, 0, 1)
-    # moving_image_shaded = imu.create_tensor_image_from_itk_image(itkImg, dtype=dtype, device=device)
-    warped_image = tu.warp_image(shaded_image, displacement)
+    # use the shaded version of the fixed image for visualization
+    warped_image = al.warp_image(shaded_image, displacement)
 
     end = time.time()
 
-    displacement = imu.create_displacement_image_from_image(displacement, moving_image)
+    displacement = al.create_displacement_image_from_image(displacement, moving_image)
 
     print("=================================================================")
 

@@ -11,3 +11,15 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+from .demonsRegulariser import GaussianRegulariser, GraphDiffusionRegulariser, EdgeUpdaterIntensities,\
+                               EdgeUpdaterDisplacementIntensities
+
+from .displacementRegulariser import SparsityRegulariser, TVRegulariser, IsotropicTVRegulariser, DiffusionRegulariser
+from .parameterRegulariser import SparsityRegulariser, TVRegulariser, IsotropicTVRegulariser, DiffusionRegulariser
+
+
+__all__ = ['GaussianRegulariser', 'GraphDiffusionRegulariser', 'EdgeUpdaterIntensities',\
+           'EdgeUpdaterDisplacementIntensities', 'SparsityRegulariser', 'TVRegulariser', 'IsotropicTVRegulariser',\
+           'DiffusionRegulariser', 'SparsityRegulariser', 'TVRegulariser', 'IsotropicTVRegulariser',\
+           'DiffusionRegulariser']

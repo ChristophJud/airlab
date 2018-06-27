@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from . import utils
+from .utils import *
 from .transformation import *
-from . import loss
+from .loss import *
+from .registration import *
+from .regulariser import *

@@ -18,11 +18,13 @@ import torch as th
 import matplotlib.pyplot as plt
 import time
 
-from airlab.registration import registration as al
-import airlab.utils.image as imu
-import airlab.transformation.pairwiseTransformation as pt
-import airlab.transformation.utils as tu
-import airlab.loss.pairwiseImageLoss as pil
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import airlab as al
+
 
 
 def main():
@@ -41,22 +43,22 @@ def main():
     # load the image data and normalize to [0, 1]
     itkImg = sitk.ReadImage("./data/affine_test_image_2d_fixed.png", sitk.sitkFloat32)
     itkImg = sitk.RescaleIntensity(itkImg, 0, 1)
-    fixed_image = imu.create_tensor_image_from_itk_image(itkImg, dtype=dtype, device=device)
+    fixed_image = al.create_tensor_image_from_itk_image(itkImg, dtype=dtype, device=device)
 
     itkImg = sitk.ReadImage("./data/affine_test_image_2d_moving.png", sitk.sitkFloat32)
     itkImg = sitk.RescaleIntensity(itkImg, 0, 1)
-    moving_image = imu.create_tensor_image_from_itk_image(itkImg, dtype=dtype, device=device)
+    moving_image = al.create_tensor_image_from_itk_image(itkImg, dtype=dtype, device=device)
 
     # create pairwise registration object
     registration = al.PairwiseRegistration(dtype=dtype, device=device)
 
     # choose the affine transformation model
-    transformation = pt.RigidTransformation(moving_image.size, dtype=dtype, device=device)
+    transformation = al.RigidTransformation(moving_image.size, dtype=dtype, device=device)
 
     registration.set_transformation(transformation)
 
     # choose the Mean Squared Error as image loss
-    image_loss = pil.MSELoss(fixed_image, moving_image)
+    image_loss = al.MSELoss(fixed_image, moving_image)
 
     registration.set_image_loss([image_loss])
 
@@ -71,7 +73,7 @@ def main():
 
     # warp the moving image with the final transformation result
     displacement = transformation.get_displacement()
-    warped_image = tu.warp_image(moving_image, displacement)
+    warped_image = al.warp_image(moving_image, displacement)
 
     end = time.time()
 

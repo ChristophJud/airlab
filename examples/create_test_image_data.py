@@ -15,9 +15,20 @@
 import numpy as np
 import torch as th
 
-import airlab.utils.image as image
+import sys
+import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import airlab as al
+
 
 def create_C_2_O_test_images(image_size, dtype=th.float32, device='cpu'):
+    """
+    Create test images for the transformation from circle to c according to
+    Modersitzki, J.(2003-12-04). Numerical Methods for Image Registration. : Oxford University Press
+
+    """
     x = np.linspace(-1, 1, image_size)
 
     xv, yv = np.meshgrid(x, x)
@@ -48,8 +59,8 @@ def create_C_2_O_test_images(image_size, dtype=th.float32, device='cpu'):
     moving_image[index] = 1
 
 
-    return [image.image_from_numpy(fixed_image, [1, 1], dtype=dtype, device=device),
-            image.image_from_numpy(moving_image, [1, 1], dtype=dtype, device=device),
-            image.image_from_numpy(shaded_image, [1, 1], dtype=dtype, device=device)]
+    return [al.image_from_numpy(fixed_image, [1, 1], dtype=dtype, device=device),
+            al.image_from_numpy(moving_image, [1, 1], dtype=dtype, device=device),
+            al.image_from_numpy(shaded_image, [1, 1], dtype=dtype, device=device)]
 
 
